@@ -6,7 +6,7 @@ export default {
             rating: 3,
             url: 'http://www.title1.com',
             description: 'lorem ipsum dolor sit',
-            expanded: false
+            expanded: true
         },
         {
             id: '6ffw',
