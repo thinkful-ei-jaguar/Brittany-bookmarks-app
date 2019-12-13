@@ -4,7 +4,7 @@ import $ from 'jquery';
 //  HTML STRING
 const generateButtonsBar = () => {
     return `<section class="main-buttons">
-    <button class="btn add-new">New</button>
+    <button class="btn js-add-new">New</button>
     <button class="btn filter-by">Filter By (dropdown)</button>
 </section>`;
 }
@@ -30,11 +30,11 @@ function generateBookmark(bookmark) {
         return htmlString;
     };
 
-    let icon = bookmark.expanded ? `<i class="fas fa-trash-alt"></i>` : `${generateRating()}`;
+    let icon = bookmark.expanded ? `<i class="js-delete-bookmark fas fa-trash-alt"></i>` : `${generateRating()}`;
 
 
     return (
-        `<li class="bookmark">
+        `<li class="js-bookmark-element" data-item-id="${bookmark.id}">
         <div class="title-section">
             <h2>${bookmark.title}</h2>
             <div class="bar-icon">${icon}</div>
@@ -52,14 +52,40 @@ const generateBookmarksSection = () => {
     );
 }
 
+function generateNewBookmarkForm() {
+    // HTML to generate the add new bookmark form
+    console.log(`"generateNewBookmarkForm" called!`);
+    return `<h2>ADD NEW FORM</h2>`
+}
 
 // EVENT HANDLERS
+function handleAddNewClicked() {
+    $('main').on('click', '.js-add-new', e => {
+        store.adding = true;
+        render();
+    })
+}
 
+const handleDeleteItemClicked = function () {
+    $('main').on('click', '.js-delete-bookmark', e => {
+        const id = getItemIdFromElement(e.currentTarget);
+        // make api request to delete item
+        // delete item from local store
+        // re-render list 
+    })
+}
 
 
 const bindEventListeners = () => {
-
+    handleAddNewClicked();
 }
+
+// OTHER
+const getItemIdFromElement = function (item) {
+    return $(item)
+        .closest('.js-bookmark-element')
+        .data('item-id');
+};
 
 // RENDER
 const render = () => {
@@ -67,6 +93,8 @@ const render = () => {
     if (!store.adding) { // if we are not adding a bookmark...
         html += generateButtonsBar();
         html += generateBookmarksSection();
+    } else {
+        html += generateNewBookmarkForm();
     }
     $('main').html(html);
 }

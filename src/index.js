@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 const main = () => {
     bookmarksApp.render();
+    bookmarksApp.bindEventListeners();
 }
 
 
