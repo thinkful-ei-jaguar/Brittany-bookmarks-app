@@ -20,4 +20,11 @@ export default {
     adding: false,
     error: null,
     filter: 0,
+    findAndDelete: function (id) {
+        this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
+    },
+    addItem: function (bookmark) {
+        this.bookmarks.push(bookmark);
+    }
 }
+

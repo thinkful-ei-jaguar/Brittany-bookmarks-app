@@ -1,4 +1,6 @@
 import store from './store';
+import api from './api';
+
 import $ from 'jquery';
 
 //  HTML STRING
@@ -69,15 +71,24 @@ function handleAddNewClicked() {
 const handleDeleteItemClicked = function () {
     $('main').on('click', '.js-delete-bookmark', e => {
         const id = getItemIdFromElement(e.currentTarget);
-        // make api request to delete item
-        // delete item from local store
-        // re-render list 
+        api.deleteItem(id)
+            .then(() => {
+                console.log('Item deleted!')
+                store.findAndDelete(id);
+                render();
+            })
+            .catch(e => {
+                console.log('There was an error deleting item!');
+            })
     })
 }
 
 
+
+
 const bindEventListeners = () => {
     handleAddNewClicked();
+    handleDeleteItemClicked();
 }
 
 // OTHER
