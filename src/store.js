@@ -25,6 +25,12 @@ export default {
     },
     addItem: function (bookmark) {
         this.bookmarks.push(bookmark);
+    },
+    filterBookmarksByRating: function (rating) {
+        this.filter = rating;
+    },
+    toggleAdding: function () {
+        this.adding = !this.adding;
     }
 }
 

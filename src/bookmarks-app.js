@@ -7,7 +7,18 @@ import $ from 'jquery';
 const generateButtonsBar = () => {
     return `<section class="main-buttons">
     <button class="btn js-add-new">New</button>
-    <button class="btn filter-by">Filter By (dropdown)</button>
+    <form>
+        <label for="rating-filter">Filter</label>
+
+        <select name="rating" id="rating-filter">
+            <option value="default">Filter</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </form>
 </section>`;
 }
 
@@ -49,29 +60,40 @@ function generateBookmark(bookmark) {
 const generateBookmarksSection = () => {
     return (
         `<ul>
-            ${store.bookmarks.map(bookmark => generateBookmark(bookmark)).join('')}
+            ${store.bookmarks.filter(bookmark => bookmark.rating >= store.filter).map(bookmark => generateBookmark(bookmark)).join('')}
         </ul>`
     );
 }
 
 function generateNewBookmarkForm() {
-    // HTML to generate the add new bookmark form
-    console.log(`"generateNewBookmarkForm" called!`);
-    return `<h2>ADD NEW FORM</h2>`
+    return `<form class="add-bookmark-link" method="POST" action="">
+
+    <label for="add-url">Add New Bookmark:</label>
+    <input id="add-url" type="url">
+
+</form>`
 }
 
 // EVENT HANDLERS
-function handleAddNewClicked() {
+const handleAddNewClicked = function () {
     $('main').on('click', '.js-add-new', e => {
-        store.adding = true;
+        store.toggleAdding();
         render();
+        api.createNewBookmark({
+            title: 'A Great Big World',
+            url: 'https://www.google.com'
+        }).then(newBookmark => {
+            store.addItem(bookmark);
+            store.toggleAdding();
+            render();
+        }).catch(e => console.log('Error adding item!'))
     })
 }
 
 const handleDeleteItemClicked = function () {
     $('main').on('click', '.js-delete-bookmark', e => {
         const id = getItemIdFromElement(e.currentTarget);
-        api.deleteItem(id)
+        api.deleteBookmark(id)
             .then(() => {
                 console.log('Item deleted!')
                 store.findAndDelete(id);
@@ -83,12 +105,20 @@ const handleDeleteItemClicked = function () {
     })
 }
 
-
+const handleFilterChange = function () {
+    $('main').on('change', '#rating-filter', e => {
+        const rating = e.currentTarget.value;
+        $(e.currentTarget).val(rating);
+        store.filterBookmarksByRating(rating);
+        render();
+    })
+}
 
 
 const bindEventListeners = () => {
     handleAddNewClicked();
     handleDeleteItemClicked();
+    handleFilterChange();
 }
 
 // OTHER
