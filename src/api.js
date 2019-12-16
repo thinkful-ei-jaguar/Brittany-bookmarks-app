@@ -22,7 +22,7 @@ const listApiFetch = (...args) => { // The rest parameter syntax allows us to re
 }
 
 const deleteBookmark = id => {
-    return listApiFetch(`${BASE_URL}/${id}`, {
+    return fetch(`${BASE_URL}/${id}`, {
         'method': 'DELETE',
         'headers': {
             'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ const deleteBookmark = id => {
 
 const createNewBookmark = bookmark => { // bookmark will be an object
     const newBookmark = JSON.stringify(bookmark);
-    return listApiFetch(BASE_URL, {
+    return fetch(BASE_URL, {
         'method': 'POST',
         'headers': {
             'Content-Type': 'application/json'
@@ -41,7 +41,17 @@ const createNewBookmark = bookmark => { // bookmark will be an object
     });
 }
 
+const fetchBookmarks = () => {
+    return fetch(BASE_URL, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
 export default {
     deleteBookmark,
-    createNewBookmark
+    createNewBookmark,
+    fetchBookmarks
 }

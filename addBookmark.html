@@ -18,11 +18,35 @@
 
         <main>
 
-            <form class="add-bookmark-link" method="POST" action="">
+            <form class="add-new-form" method="POST">
+                <fieldset>
+                    <legend>Add New Bookmark</legend>
 
-                <label for="add-url">Add New Bookmark:</label>
-                <input id="add-url" type="url">
 
+                    <label for="add-url">Link:</label>
+                    <input required id="add-url" type="url">
+
+                    <label for="add-title">Title:</label>
+                    <input required id="add-title" type="text">
+
+                    <label for="add-desc">Description:</label>
+                    <textarea name="add-desc" id="add-desc" cols="30" rows="10" placeholder="Add Description (optional)"></textarea>
+
+                    <label for="add-rating">Rating:</label>
+                    <select name="add-rating" id="add-rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+
+                    <div class="form-buttons">
+                        <button class="btn cancel-btn js-cancel-btn">Cancel</button>
+                        <button class="btn submit-btn" type="submit">Submit</button>
+                    </div>
+
+                </fieldset>
             </form>
         </main>
     </div>

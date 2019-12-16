@@ -23,7 +23,8 @@ export default {
     findAndDelete: function (id) {
         this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
     },
-    addItem: function (bookmark) {
+    addBookmark: function (bookmark) {
+        console.log(`Adding bookmark to store...`);
         this.bookmarks.push(bookmark);
     },
     filterBookmarksByRating: function (rating) {
@@ -31,6 +32,10 @@ export default {
     },
     toggleAdding: function () {
         this.adding = !this.adding;
+    },
+    toggleExpanded: function (id) {
+        const bookmark = this.bookmarks.find(bookmark => bookmark.id === id);
+        bookmark.expanded = !bookmark.expanded;
     }
 }
 
