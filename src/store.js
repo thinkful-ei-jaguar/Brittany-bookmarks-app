@@ -24,6 +24,9 @@ export default {
     },
     setBookmarks: function (bookmarks) {
         this.bookmarks = bookmarks;
+    },
+    setError(msg) {
+        this.error = msg;
     }
 }
 

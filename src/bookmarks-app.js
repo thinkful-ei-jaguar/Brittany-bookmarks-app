@@ -26,7 +26,7 @@ const generateButtonsBar = () => {
 function generateBookmark(bookmark) {
     let expandedSection = bookmark.expanded ? (`<div class="main-section hidden">
     <div class="button-rating">
-        <a class="visit-site" target="_blank" href="${bookmark.link}">Visit Site</a>
+        <a class="visit-site" target="_blank" href="${bookmark.url}">Visit Site</a>
         <span class="rating-expanded">${bookmark.rating}</span>
     </div>
 
@@ -73,21 +73,30 @@ const generateBookmarksSection = () => {
 }
 
 function generateNewBookmarkForm() {
+    let errorBox = store.error ? `<div class="error-box">${store.error}</div>` : '';
     return `
+    ${errorBox}
     <form class="add-new-form" method="POST">
     <fieldset>
         <legend>Add New Bookmark</legend>
 
-
+        <div class="field">
         <label for="add-url">Link:</label>
-        <input required id="add-url" type="url">
+        <input required placeholder="Must begin with 'http://' or 'https://'" id="add-url" type="url">
+        </div>
 
+        <div class="field">
         <label for="add-title">Title:</label>
         <input required id="add-title" type="text">
+        </div>
 
+
+        <div class="field">
         <label for="add-desc">Description:</label>
         <textarea name="add-desc" id="add-desc" cols="30" rows="10" placeholder="Add Description (optional)"></textarea>
+        </div>
 
+        <div class="field">
         <label for="add-rating">Rating:</label>
         <select name="add-rating" id="add-rating">
             <option value="1">1</option>
@@ -96,6 +105,7 @@ function generateNewBookmarkForm() {
             <option value="4">4</option>
             <option value="5">5</option>
         </select>
+        </div>
 
         <div class="form-buttons">
             <button class="btn cancel-btn js-cancel-btn">Cancel</button>
@@ -157,7 +167,11 @@ const handleNewFormSubmit = function () {
                 store.toggleAdding();
                 render();
             })
-            .catch(e => console.log(`There was an error! ${e.message}`))
+            .catch(e => {
+                console.log(e);
+                store.setError(e.message);
+                render();
+            })
     })
 }
 

@@ -34,7 +34,7 @@ fieldset {
     flex-direction: column; 
     margin: 2% auto; 
 }
-.add-new {
+.add-new, .submit-btn {
     border: 5px solid #3675ff; 
     background-color: #3675ff; 
     border-radius: 2%;
@@ -50,7 +50,16 @@ fieldset {
     margin: 2% auto; 
     vertical-align: center; 
 }
-.filter-btn {
+.cancel-btn, .submit-btn {
+    width: 47%; 
+    padding: 1%; 
+}
+.form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.filter-btn, .cancel-btn {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -112,21 +121,68 @@ a {
 }
 
 .rating-expanded {
+    border: 2px solid gold;
+    background-color: gold;
+    border-radius: 50%;
+    padding: 2%; 
     font-weight: bold;
-    color: gold; 
+    color: black; 
     vertical-align: center;
+}
+.error-box {
+    padding: 2%;
+    margin: 2% auto;
+    text-align: center;
+    border: 1px solid red; 
+}
+fieldset {
+    display: flex;
+    flex-direction: column;
+}
+.field {
+    margin: 2% auto; 
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+legend {
+    color: #3675ff;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-bottom: 2%;
+}
+label {
+    font-weight: bold;
+    color: darkgray;
+}
+
+input, textarea {
+    border: 2px solid #3675ff;
+    padding: 1%;
 }
 
 /* MEDIA QUERIES */
 
 @media only screen and (min-width: 455px) {
+    .field > input:nth-child(2) {
+        width: 60%;
+    }
+
     .add-new {
         background-color: #fff;
     }
-.add-new:hover{
+.add-new:hover, .submit-btn:hover{
     background-color: #3675ff;
 }
-    
+.submit-btn {
+    background-color: white;
+    border: 2px solid #3675ff;
+}
+ .cancel-btn:hover {
+     background-color: white;
+     border: 2px solid lightgray;
+ }   
 .title-section {
     border: 1px solid grey; 
     padding: 2% 5%;
