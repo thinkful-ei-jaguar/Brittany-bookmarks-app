@@ -1,8 +1,3 @@
-// JUST NEED TO FIGURE OUT WHY MY LIST API IS NOT WORKING AND HOW TO HANDLE PERSISTENCE WHICH I STRUGGLE WITH :( )
-//...and drop down menu not working for filter :/ 
-//...also need to possibly fix accessibility of form page...
-
-
 import store from './store';
 import api from './api';
 import './style.css';
@@ -13,9 +8,8 @@ import $ from 'jquery';
 const generateButtonsBar = () => {
     return `<section class="main-buttons">
     
-    <button class="btn js-add-new">New</button>
-        <label for="rating-filter">Filter</label>
-
+    <div class="btn main-btn add-new js-add-new"><i class="fas fa-plus"></i> <span class="new-text">New</span> <i class="hidden bookmark-icon far fa-bookmark"></i></div>
+    <div class="btn main-btn filter-btn"><span>Filter By</span> 
         <select name="rating" id="rating-filter">
             <option value="0">--</option>
             <option ${store.filter == 1 ? 'selected' : ''} value="1">1</option>
@@ -24,6 +18,7 @@ const generateButtonsBar = () => {
             <option ${store.filter == 4 ? 'selected' : ''} value="4">4</option>
             <option ${store.filter == 5 ? 'selected' : ''} value="5">5</option>
         </select>
+    </div>
 
 </section>`;
 }
@@ -31,12 +26,12 @@ const generateButtonsBar = () => {
 function generateBookmark(bookmark) {
     let expandedSection = bookmark.expanded ? (`<div class="main-section hidden">
     <div class="button-rating">
-        <a class="visit-site" href="${bookmark.link}">Visit Site</a>
+        <a class="visit-site" target="_blank" href="${bookmark.link}">Visit Site</a>
         <span class="rating-expanded">${bookmark.rating}</span>
     </div>
 
     <p>
-        ${bookmark.description}
+        ${bookmark.desc}
     </p>
 </div>`) : "";
 
@@ -44,12 +39,12 @@ function generateBookmark(bookmark) {
     const generateRating = () => {
         let htmlString = '';
         for (let i = 1; i <= bookmark.rating; i++) {
-            htmlString += `<i class="fas fa-star"></i>`
+            htmlString += `<i class="star-icon fas fa-star"></i>`
         }
         return htmlString;
     };
 
-    let icon = bookmark.expanded ? `<i class="js-delete-bookmark fas fa-trash-alt"></i>` : `${generateRating()}`;
+    let icon = bookmark.expanded ? `<i class="trash-icon js-delete-bookmark fas fa-trash-alt"></i>` : `${generateRating()}`;
 
 
     return (
@@ -123,9 +118,7 @@ const handleDeleteItemClicked = function () {
     $('main').on('click', '.js-delete-bookmark', e => {
         const id = getItemIdFromElement(e.currentTarget);
         api.deleteBookmark(id)
-            .then(res => res.json())
             .then(() => {
-                console.log('Item deleted!')
                 store.findAndDelete(id);
                 render();
             })
