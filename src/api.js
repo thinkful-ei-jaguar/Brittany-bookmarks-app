@@ -3,7 +3,7 @@ const BASE_URL = 'https://thinkful-list-api.herokuapp.com/brittany/bookmarks';
 // handle errors where an e is not thrown 
 const listApiFetch = (...args) => { // The rest parameter syntax allows us to represent an indefinite number of arguments as an array.
     let error = null;
-    fetch(...args)
+    return fetch(...args)
         .then(res => {
             console.log(`res: ${res}`);
             if (!res.ok) {
@@ -32,7 +32,7 @@ const deleteBookmark = id => {
 
 const createNewBookmark = bookmark => { // bookmark will be an object
     const newBookmark = JSON.stringify(bookmark);
-    return fetch(BASE_URL, {
+    return listApiFetch(BASE_URL, {
         'method': 'POST',
         'headers': {
             'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ const createNewBookmark = bookmark => { // bookmark will be an object
 }
 
 const fetchBookmarks = () => {
-    return fetch(BASE_URL, {
+    return listApiFetch(BASE_URL, {
         'method': 'GET',
         'headers': {
             'Content-Type': 'application/json'

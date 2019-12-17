@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/thinkful-ei-jaguar/Brittany-bookmarks-app#readme",
   "dependencies": {
-    "jquery": "^3.4.1"
+    "jquery": "^3.4.1",
+    "live-server": "^1.2.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.12.0",

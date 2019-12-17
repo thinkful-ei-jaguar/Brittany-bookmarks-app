@@ -3,8 +3,9 @@ import bookmarksApp from './bookmarks-app';
 import $ from 'jquery';
 
 const main = () => {
-    bookmarksApp.render();
-    bookmarksApp.bindEventListeners();
+    bookmarksApp.start();
+    // bookmarksApp.render();
+    // bookmarksApp.bindEventListeners();
 }
 
 

@@ -1,31 +1,30 @@
 // JUST NEED TO FIGURE OUT WHY MY LIST API IS NOT WORKING AND HOW TO HANDLE PERSISTENCE WHICH I STRUGGLE WITH :( )
-
+//...and drop down menu not working for filter :/ 
+//...also need to possibly fix accessibility of form page...
 
 
 import store from './store';
 import api from './api';
+import './style.css';
 
 import $ from 'jquery';
 
 //  HTML STRING
 const generateButtonsBar = () => {
     return `<section class="main-buttons">
-    <form>
-    <fieldset>
+    
     <button class="btn js-add-new">New</button>
         <label for="rating-filter">Filter</label>
 
         <select name="rating" id="rating-filter">
             <option value="0">--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option ${store.filter == 1 ? 'selected' : ''} value="1">1</option>
+            <option ${store.filter == 2 ? 'selected' : ''} value="2">2</option>
+            <option ${store.filter == 3 ? 'selected' : ''} value="3">3</option>
+            <option ${store.filter == 4 ? 'selected' : ''} value="4">4</option>
+            <option ${store.filter == 5 ? 'selected' : ''} value="5">5</option>
         </select>
 
-        </fieldset>
-    </form>
 </section>`;
 }
 
@@ -159,7 +158,6 @@ const handleNewFormSubmit = function () {
             rating: newRating,
             expanded: false
         })
-            .then(res => res.json())
             .then(bookmark => {
                 console.log(`Bookmark created: ${bookmark}`);
                 store.addBookmark(bookmark);
@@ -204,9 +202,17 @@ const getItemIdFromElement = function (item) {
         .data('item-id');
 };
 
+const start = function () {
+    bindEventListeners();
+    api.fetchBookmarks()
+        .then(bookmarks => {
+            store.setBookmarks(bookmarks);
+            render();
+        })
+}
+
 // RENDER
 const render = () => {
-    // // ** NEED TO PULL DATA FROM API
     // api.fetchBookmarks()
     //     .then(bookmarks => {
     //         store.
@@ -224,6 +230,5 @@ const render = () => {
 
 
 export default {
-    render,
-    bindEventListeners
+    start
 }
