@@ -133,7 +133,8 @@ a {
     vertical-align: center;
 }
 .error-box {
-    padding: 2%;
+    padding: 1%;
+    width: 100%;
     margin: 2% auto;
     text-align: center;
     border: 1px solid red; 
@@ -168,6 +169,19 @@ input, textarea {
 .required-span {
     color: red; 
     font-size: 18px; 
+}
+
+.error-msg {
+    color: red;
+}
+
+.main-section {
+    margin-bottom: 2%; 
+}
+
+.main-section p {
+    text-align: left; 
+    padding-left: 5%; 
 }
 
 /* MEDIA QUERIES */
@@ -207,6 +221,10 @@ box-shadow: 10px 9px 13px -5px rgba(0,0,0,0.75);
 }
 
 @media only screen and (min-width: 959px) {
+    .error-box {
+        
+    width: 70%;
+    }
     .field {
         margin: 2% auto; 
         width: 60%;

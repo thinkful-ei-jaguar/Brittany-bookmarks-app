@@ -32,7 +32,7 @@ function generateBookmark(bookmark) {
         ${rating}
     </div>
 
-    <p>
+    <p class="bookmark-desc">
         ${bookmark.desc}
     </p>
 </div>`) : "";
@@ -75,7 +75,7 @@ const generateBookmarksSection = () => {
 }
 
 function generateNewBookmarkForm() {
-    let errorBox = store.error ? `<div class="error-box">${store.error}</div>` : '';
+    let errorBox = store.error ? `<div class="error-box"><em class="error-msg">${store.error}</em></div>` : '';
     return `
     ${errorBox}
     <form class="add-new-form" method="POST">
@@ -157,40 +157,28 @@ const handleNewFormSubmit = function () {
         const newDesc = $('#add-desc').val();
         const newRating = $('#add-rating').val();
 
-        if (newRating === 'none') {
-            api.createNewBookmark({
-                title: newTitle,
-                url: newUrl,
-                desc: newDesc,
-                expanded: false
-            })
-                .then(bookmark => {
-                    store.addBookmark(bookmark);
-                    store.toggleAdding();
-                    render();
-                })
-                .catch(e => {
-                    store.setError(e.message);
-                    render();
-                })
-        } else {
-            api.createNewBookmark({
-                title: newTitle,
-                url: newUrl,
-                desc: newDesc,
-                rating: newRating,
-                expanded: false
-            })
-                .then(bookmark => {
-                    store.addBookmark(bookmark);
-                    store.toggleAdding();
-                    render();
-                })
-                .catch(e => {
-                    store.setError(e.message);
-                    render();
-                })
+        let newBookmark = {
+            title: newTitle,
+            url: newUrl,
+            desc: newDesc,
+            expanded: false
+        };
+
+        if (newRating !== 'none') {
+            Object.assign(newBookmark, { rating: newRating });
         }
+
+        api.createNewBookmark(newBookmark)
+            .then(bookmark => {
+                store.addBookmark(bookmark);
+                store.toggleAdding();
+                render();
+            })
+            .catch(e => {
+                console.log(e);
+                store.setError(e.message);
+                render();
+            })
 
 
 
