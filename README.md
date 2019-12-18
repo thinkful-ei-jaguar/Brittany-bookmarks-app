@@ -13,3 +13,4 @@ Users receive appropriate feedback when they cannot submit a bookmark.
 
 Users can select from a dropdown a "minimum rating" to filter the list by all bookmarks rated at or above the chosen selection. 
 
+LIVE Project: https://thinkful-ei-jaguar.github.io/Brittany-bookmarks-app/
