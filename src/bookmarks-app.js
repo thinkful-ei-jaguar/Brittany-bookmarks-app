@@ -24,10 +24,12 @@ const generateButtonsBar = () => {
 }
 
 function generateBookmark(bookmark) {
+    let rating = bookmark.rating ? `<span class="rating-expanded">${bookmark.rating}</span>` : '';
+
     let expandedSection = bookmark.expanded ? (`<div class="main-section hidden">
     <div class="button-rating">
         <a class="visit-site" target="_blank" href="${bookmark.url}">Visit Site</a>
-        <span class="rating-expanded">${bookmark.rating}</span>
+        ${rating}
     </div>
 
     <p>
@@ -81,13 +83,13 @@ function generateNewBookmarkForm() {
         <legend>Add New Bookmark</legend>
 
         <div class="field">
-        <label for="add-url">Link:</label>
+        <label for="add-url">Link: <span class="required-span"><em>Required</em></span></label>
         <input required placeholder="Must begin with 'http://' or 'https://'" id="add-url" type="url">
         </div>
 
         <div class="field">
-        <label for="add-title">Title:</label>
-        <input required id="add-title" type="text">
+        <label for="add-title">Title: <span class="required-span"><em>Required</em></span></label>
+        <input required placeholder="Title" id="add-title" type="text">
         </div>
 
 
@@ -99,6 +101,7 @@ function generateNewBookmarkForm() {
         <div class="field">
         <label for="add-rating">Rating:</label>
         <select name="add-rating" id="add-rating">
+            <option value="none">--</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -154,24 +157,43 @@ const handleNewFormSubmit = function () {
         const newDesc = $('#add-desc').val();
         const newRating = $('#add-rating').val();
 
-        api.createNewBookmark({
-            title: newTitle,
-            url: newUrl,
-            desc: newDesc,
-            rating: newRating,
-            expanded: false
-        })
-            .then(bookmark => {
-                console.log(`Bookmark created: ${bookmark}`);
-                store.addBookmark(bookmark);
-                store.toggleAdding();
-                render();
+        if (newRating === 'none') {
+            api.createNewBookmark({
+                title: newTitle,
+                url: newUrl,
+                desc: newDesc,
+                expanded: false
             })
-            .catch(e => {
-                console.log(e);
-                store.setError(e.message);
-                render();
+                .then(bookmark => {
+                    store.addBookmark(bookmark);
+                    store.toggleAdding();
+                    render();
+                })
+                .catch(e => {
+                    store.setError(e.message);
+                    render();
+                })
+        } else {
+            api.createNewBookmark({
+                title: newTitle,
+                url: newUrl,
+                desc: newDesc,
+                rating: newRating,
+                expanded: false
             })
+                .then(bookmark => {
+                    store.addBookmark(bookmark);
+                    store.toggleAdding();
+                    render();
+                })
+                .catch(e => {
+                    store.setError(e.message);
+                    render();
+                })
+        }
+
+
+
     })
 }
 
@@ -179,7 +201,6 @@ const handleNewFormSubmit = function () {
 // handle expanded clicked
 const handleExpandedClicked = function () {
     $('main').on('click', '.title-section', e => {
-        console.log(`"handleExpandedCLicked" ran!`);
         const id = getItemIdFromElement(e.currentTarget);
         store.toggleExpanded(id);
         render();
