@@ -156,7 +156,6 @@ const handleNewFormSubmit = function () {
         const newTitle = $('#add-title').val();
         const newDesc = $('#add-desc').val();
         const newRating = $('#add-rating').val();
-
         let newBookmark = {
             title: newTitle,
             url: newUrl,
@@ -164,8 +163,12 @@ const handleNewFormSubmit = function () {
             expanded: false
         };
 
+        let obj = {
+            rating: newRating
+        };
+
         if (newRating !== 'none') {
-            Object.assign(newBookmark, { rating: newRating });
+            Object.assign(newBookmark, obj);
         }
 
         api.createNewBookmark(newBookmark)
