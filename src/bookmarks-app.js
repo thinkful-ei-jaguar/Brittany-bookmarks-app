@@ -35,6 +35,8 @@ function generateBookmark(bookmark) {
     <p class="bookmark-desc">
         ${bookmark.desc}
     </p>
+
+    <div class="button-delete hidden-large js-delete-bookmark">Delete</div> 
 </div>`) : "";
 
 
